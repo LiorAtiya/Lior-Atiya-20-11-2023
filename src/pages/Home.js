@@ -48,7 +48,7 @@ function Home() {
 
   const TEST = {
     cityKey: 12345,
-    city: "Afula",
+    city: "Tel-Aviv",
     details: {
       WeatherText: "Cloudy",
       Temperature: {
