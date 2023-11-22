@@ -2,7 +2,7 @@ import React from "react";
 
 function DailyWeather({ day, celsius }) {
   return (
-    <div className="bg-blue-500 p-4 rounded-md text-center">
+    <div className="p-4 text-center bg-blue-500 rounded-md">
       <p>{day}</p>
       <p>{celsius}&deg;C</p>
     </div>

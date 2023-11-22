@@ -1,64 +1,92 @@
-import React, {
-  useEffect,
-  useState, // , { useEffect }
-} from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchWeather,
+  searchCityWeather,
+  addToFavorites,
+  removeFromFavorites,
+} from "../features/weatherSlice";
+import { useNavigate } from "react-router-dom";
+
 import SearchBar from "../components/SearchBar";
 import Weather from "../components/Weather";
-// import axios from "axios";
-
-import { useDispatch, useSelector } from "react-redux";
-import { fetchWeather } from "../features/weatherSlice";
+import SearchResults from "../components/SearchResults";
 
 function Home() {
-  const [defaultCity, setDefaultCity] = useState(true);
   const dispatch = useDispatch();
+  const type = useSelector((state) => state.weather.type);
   const currWeather = useSelector((state) => state.weather.weather);
+  const citiesResults = useSelector((state) => state.weather.searchResults);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchWeather(215854));
+    // //Deafult fetch of Tel-Aviv
+    // if (type === "") {
+    //   dispatch(fetchWeather({ cityKey: 215854, cityName: "Tel-Aviv" }));
+    // }
   }, [dispatch]);
 
-  // const handleResultSearch = (results) => {
-  //   setArrayReuslts(results);
-  //   console.log(results);
-  // };
+  const handleResultSearch = (cityName) => {
+    dispatch(searchCityWeather(cityName));
+  };
 
-  // const jsonString =
-  //   '[{"Version":1,"Key":"214236","Type":"City","Rank":55,"LocalizedName":"Afula","Country":{"ID":"IL","LocalizedName":"Israel"},"AdministrativeArea":{"ID":"Z","LocalizedName":"Northern District"}}]';
-  // const jsonObject = JSON.parse(jsonString);
+  const handleClickCity = (cityKey, cityName) => {
+    dispatch(fetchWeather({ cityKey: cityKey, cityName: cityName }));
+  };
+
+  const handleAddToFavorites = (
+    cityKey,
+    cityName,
+    temperature,
+    WeatherText
+  ) => {
+    dispatch(addToFavorites({ cityKey, cityName, temperature, WeatherText }));
+    navigate("/Favorites");
+  };
+
+  const handleRemoveFromFavorites = (cityName) => {
+    dispatch(removeFromFavorites({ name: cityName }));
+  };
 
   return (
     <div>
-      {/* {!currWeather.loading && currWeather.current.length
-        ? console.log(currWeather)
-        : null} */}
-      <SearchBar />
+      <SearchBar searchRef={handleResultSearch} />
 
-      {currWeather.loading && <div>Loading...</div>}
-      {currWeather.loading && currWeather.error ? (
-        <div>{currWeather.error}</div>
-      ) : null}
-      {!currWeather.loading &&
-      currWeather.current &&
-      currWeather.forecast &&
-      currWeather.current.length ? (
-        defaultCity ? (
-          <>
-            {console.log(currWeather.forecast.DailyForecasts)}
+      {type === "SEARCH" && (
+        <>
+          {citiesResults.loading && <div>Loading...</div>}
+          {citiesResults.error && <p>The allowed number of requests has been exceeded</p>}
+          {!citiesResults.loading &&
+          citiesResults.data &&
+          citiesResults.data.length !== 0 ? (
+            <SearchResults
+              citiesList={citiesResults.data}
+              chooseCity={handleClickCity}
+            />
+          ) : null}
+        </>
+      )}
+
+      {type === "WEATHER" && (
+        <>
+          {currWeather.loading && <div>Loading...</div>}
+          {currWeather.error && <p>The allowed number of requests has been exceeded</p>}
+          {!currWeather.loading &&
+          currWeather.current &&
+          currWeather.forecast &&
+          currWeather.current.length ? (
             <Weather
-              city={"Tel-Aviv"}
+              cityKey={currWeather.key}
+              city={currWeather.city}
               details={currWeather.current[0]}
               forecasts={currWeather.forecast.DailyForecasts}
+              handleAddToFavorites={handleAddToFavorites}
+              handleRemoveFromFavorites={handleRemoveFromFavorites}
             />
-          </>
-        ) : (
-          <Weather
-            city={"Tel-Aviv"}
-            details={currWeather.current[0]}
-            forecasts={currWeather.forecast.DailyForecasts}
-          />
-        )
-      ) : null}
+          ) : null}
+        </>
+      )}
     </div>
   );
 }

@@ -1,29 +1,16 @@
 import React, { useRef } from "react";
-import axios from "axios";
 
-function SearchBar() {
+function SearchBar({ searchRef }) {
   const searchCity = useRef();
 
   const handleClickSubmit = async (e) => {
     e.preventDefault();
-
-    const apiKey = process.env.REACT_APP_ACCUWEATHER_API_KEY;
-    const city = searchCity.current.value;
-
-    await axios
-      .get(
-        `https://cors-anywhere.herokuapp.com/http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${city}`
-      )
-      .then((res) => {
-        // handleResultSearch(res.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data from AccuWeather API:", error);
-      });
+    searchRef(searchCity.current.value);
+    searchCity.current.value = "";
   };
 
   return (
-    <form className="w-3/5 m-auto mt-11">
+    <form className="w-3/5 m-auto mt-11" onSubmit={handleClickSubmit}>
       <label
         htmlFor="default-search"
         className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -57,8 +44,8 @@ function SearchBar() {
           required
         />
         <button
-          // type="submit"
-          onClick={handleClickSubmit}
+          type="submit"
+          // onClick={handleClickSubmit}
           className="text-white absolute end-2.5 bottom-2.5 bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Search

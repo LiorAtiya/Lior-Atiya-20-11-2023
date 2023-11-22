@@ -1,49 +1,30 @@
 import React from "react";
 import FavoriteCard from "../components/FavoriteCard";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchWeather } from "../features/weatherSlice";
+import { useNavigate } from "react-router-dom";
 
 function Favorite() {
-  const otherDays = [
-    {
-      city: "Tel-Aviv",
-      celsius: "20",
-      WeatherText: "Mostly cloudy",
-    },
-    {
-      city: "Afula",
-      celsius: "20",
-      WeatherText: "Mostly cloudy",
-    },
-    {
-      city: "Haifa",
-      celsius: "20",
-      WeatherText: "Mostly cloudy",
-    },
-    {
-      city: "Shoham",
-      celsius: "20",
-      WeatherText: "Mostly cloudy",
-    },
-    {
-      city: "New-York",
-      celsius: "20",
-      WeatherText: "Mostly cloudy",
-    },
-    {
-      city: "New-York",
-      celsius: "20",
-      WeatherText: "Mostly cloudy",
-    },
-  ];
+  const favoritesList = useSelector((state) => state.weather.favorites);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleClickFavoriteCity = (cityKey, cityName) => {
+    dispatch(fetchWeather({ cityKey: cityKey, cityName: cityName }));
+    navigate("/");
+  };
 
   return (
     <div className="">
       <div className="flex flex-wrap justify-center">
-        {otherDays.map((item, index) => (
+        {favoritesList?.map((item, index) => (
           <div key={index}>
             <FavoriteCard
-              city={item.city}
-              celsius={item.celsius}
+              cityKey={item.cityKey}
+              city={item.cityName}
+              temperature={item.temperature}
               WeatherText={item.WeatherText}
+              handleClick={handleClickFavoriteCity}
             />
           </div>
         ))}

@@ -1,8 +1,24 @@
 import React from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import DailyWeather from "./DailyWeather";
+import { useDispatch, useSelector } from "react-redux";
+import { existInFavorites } from "../features/weatherSlice";
 
-function Weather({ city, details, forecasts }) {
+function Weather({
+  cityKey,
+  city,
+  details,
+  forecasts,
+  handleAddToFavorites,
+  handleRemoveFromFavorites,
+}) {
+  const dispatch = useDispatch();
+  const exist = useSelector((state) => state.weather.checkExist);
+
+  const existFavorite = () => {
+    dispatch(existInFavorites({ name: city }));
+    return exist;
+  };
 
   return (
     <div className="flex items-center justify-center">
@@ -28,9 +44,28 @@ function Weather({ city, details, forecasts }) {
           {/* <button className="px-4 py-2 text-white bg-blue-500 rounded-md">
             Button 1
           </button> */}
-          <button className="px-4 text-white bg-teal-500 rounded-md">
-            Add To Favorite
-          </button>
+          {existFavorite() ? (
+            <button
+              onClick={() => handleRemoveFromFavorites(city)}
+              className="px-4 text-white bg-teal-500 rounded-md"
+            >
+              Remove From Favorite
+            </button>
+          ) : (
+            <button
+              onClick={() =>
+                handleAddToFavorites(
+                  cityKey,
+                  city,
+                  details.Temperature.Metric.UnitType,
+                  details.WeatherText
+                )
+              }
+              className="px-4 text-white bg-teal-500 rounded-md"
+            >
+              Add To Favorite
+            </button>
+          )}
         </div>
 
         <div className="mt-40 text-center">

@@ -1,12 +1,13 @@
 import React from "react";
 
-function FavoriteCard({ key, city, celsius, WeatherText }) {
+function FavoriteCard({ cityKey, city, temperature, WeatherText, handleClick }) {
   return (
     <button
-      className="bg-blue-500 m-10 p-4 rounded-md text-center"
+      className="p-4 m-10 text-center bg-blue-500 rounded-md"
+      onClick={() => handleClick(cityKey,city)}
     >
       <p>{city}</p>
-      <p>{celsius}&deg;C</p>
+      <p>{temperature}&deg;C</p>
       <p>{WeatherText}</p>
     </button>
   );
