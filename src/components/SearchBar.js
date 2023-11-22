@@ -10,7 +10,7 @@ function SearchBar({ searchRef }) {
   };
 
   return (
-    <form className="w-3/5 m-auto mt-11" onSubmit={handleClickSubmit}>
+    <form className="w-4/5 m-auto md:w-3/5 lg:w-2/5 mt-11" onSubmit={handleClickSubmit}>
       <label
         htmlFor="default-search"
         className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -39,14 +39,13 @@ function SearchBar({ searchRef }) {
           ref={searchCity}
           type="search"
           id="default-search"
-          className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none"
           placeholder="Search City"
           required
         />
         <button
           type="submit"
-          // onClick={handleClickSubmit}
-          className="text-white absolute end-2.5 bottom-2.5 bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="text-white absolute end-2.5 bottom-2.5 bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-4 py-2"
         >
           Search
         </button>

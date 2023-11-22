@@ -6,19 +6,17 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "../features/weatherSlice";
-import { useNavigate } from "react-router-dom";
 
 import SearchBar from "../components/SearchBar";
 import Weather from "../components/Weather";
 import SearchResults from "../components/SearchResults";
+import ModalError from "../components/ModalError";
 
 function Home() {
   const dispatch = useDispatch();
   const type = useSelector((state) => state.weather.type);
   const currWeather = useSelector((state) => state.weather.weather);
   const citiesResults = useSelector((state) => state.weather.searchResults);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     // //Deafult fetch of Tel-Aviv
@@ -42,11 +40,65 @@ function Home() {
     WeatherText
   ) => {
     dispatch(addToFavorites({ cityKey, cityName, temperature, WeatherText }));
-    navigate("/Favorites");
   };
 
   const handleRemoveFromFavorites = (cityName) => {
     dispatch(removeFromFavorites({ name: cityName }));
+  };
+
+  const TEST = {
+    cityKey: 12345,
+    city: "Afula",
+    details: {
+      WeatherText: "Cloudy",
+      Temperature: {
+        Metric: {
+          UnitType: 22,
+        },
+      },
+    },
+    forecasts: [
+      {
+        day: new Date(),
+        Temperature: {
+          Maximum: {
+            UnitType: 1,
+          },
+        },
+      },
+      {
+        day: new Date(),
+        Temperature: {
+          Maximum: {
+            UnitType: 2,
+          },
+        },
+      },
+      {
+        day: new Date(),
+        Temperature: {
+          Maximum: {
+            UnitType: 3,
+          },
+        },
+      },
+      {
+        day: new Date(),
+        Temperature: {
+          Maximum: {
+            UnitType: 4,
+          },
+        },
+      },
+      {
+        day: new Date(),
+        Temperature: {
+          Maximum: {
+            UnitType: 5,
+          },
+        },
+      },
+    ],
   };
 
   return (
@@ -56,7 +108,9 @@ function Home() {
       {type === "SEARCH" && (
         <>
           {citiesResults.loading && <div>Loading...</div>}
-          {citiesResults.error && <p>The allowed number of requests has been exceeded</p>}
+          {citiesResults.error && (
+            <ModalError errorMessage="The allowed number of requests has been exceeded" />
+          )}
           {!citiesResults.loading &&
           citiesResults.data &&
           citiesResults.data.length !== 0 ? (
@@ -71,7 +125,9 @@ function Home() {
       {type === "WEATHER" && (
         <>
           {currWeather.loading && <div>Loading...</div>}
-          {currWeather.error && <p>The allowed number of requests has been exceeded</p>}
+          {currWeather.error && (
+            <ModalError errorMessage="The allowed number of requests has been exceeded" />
+          )}
           {!currWeather.loading &&
           currWeather.current &&
           currWeather.forecast &&
@@ -87,6 +143,15 @@ function Home() {
           ) : null}
         </>
       )}
+
+      <Weather
+        cityKey={TEST.cityKey}
+        city={TEST.city}
+        details={TEST.details}
+        forecasts={TEST.forecasts}
+        handleAddToFavorites={handleAddToFavorites}
+        handleRemoveFromFavorites={handleRemoveFromFavorites}
+      />
     </div>
   );
 }

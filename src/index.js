@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 // import App from "./App";
-import Favorite from "./pages/Favorite";
+import Favorites from "./pages/Favorites";
 import Home from "./pages/Home";
 import Header from "./components/Header";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -15,8 +15,8 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/Favorite",
-    element: <Favorite />,
+    path: "/Favorites",
+    element: <Favorites />,
   },
 ]);
 

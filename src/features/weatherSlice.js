@@ -78,12 +78,6 @@ export const weatherSlice = createSlice({
       state.favorites = nextFavorites;
       localStorage.setItem("favoritesCities", JSON.stringify(state.favorites));
     },
-    existInFavorites(state, action) {
-      const checkExist = state.favorites.filter(
-        (favorite) => favorite.cityName === action.payload.name
-      );
-      state.checkExist = checkExist.length !== 0;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchWeather.pending, (state) => {
@@ -124,7 +118,6 @@ export const weatherSlice = createSlice({
   },
 });
 
-export const { addToFavorites, removeFromFavorites, existInFavorites } =
-  weatherSlice.actions;
+export const { addToFavorites, removeFromFavorites } = weatherSlice.actions;
 
 export default weatherSlice.reducer;
