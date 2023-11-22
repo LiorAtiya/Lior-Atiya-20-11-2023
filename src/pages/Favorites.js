@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import FavoriteCard from "../components/FavoriteCard";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchWeather } from "../features/weatherSlice";
@@ -9,27 +9,66 @@ function Favorite() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [isCelsius, setIsCelsius] = useState(true);
+
   const handleClickFavoriteCity = (cityKey, cityName) => {
     dispatch(fetchWeather({ cityKey: cityKey, cityName: cityName }));
     navigate("/");
   };
 
+  const toFahrenheit = (celsius) => {
+    return (celsius * 9) / 5 + 32;
+  };
+
   return (
-    <div className="">
-      <div className="flex flex-wrap justify-center">
+    <>
+      {isCelsius ? (
+        <div className="mt-4 text-center">
+          <button
+            onClick={() => setIsCelsius(false)}
+            className="px-4 text-white bg-teal-500 rounded-md"
+          >
+            Fahrenheit Mode
+          </button>
+        </div>
+      ) : (
+        <div className="mt-4 text-center">
+          <button
+            onClick={() => setIsCelsius(true)}
+            className="px-4 text-white bg-teal-500 rounded-md"
+          >
+            Celsius Mode
+          </button>
+        </div>
+      )}
+
+      <div className="flex flex-wrap justify-center mt-3">
         {favoritesList?.map((item, index) => (
           <div key={index}>
-            <FavoriteCard
-              cityKey={item.cityKey}
-              city={item.cityName}
-              temperature={item.temperature}
-              WeatherText={item.WeatherText}
-              handleClick={handleClickFavoriteCity}
-            />
+            {isCelsius ? (
+              <FavoriteCard
+                cityKey={item.cityKey}
+                city={item.cityName}
+                temperature={item.temperature + "°C"}
+                WeatherText={item.WeatherText}
+                handleClick={handleClickFavoriteCity}
+              />
+            ) : (
+              <FavoriteCard
+                cityKey={item.cityKey}
+                city={item.cityName}
+                temperature={
+                  toFahrenheit((item.temperature).toFixed(2)) +
+                  "°F"
+                }
+                WeatherText={item.WeatherText}
+                handleClick={handleClickFavoriteCity}
+              />
+            )}
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }
 

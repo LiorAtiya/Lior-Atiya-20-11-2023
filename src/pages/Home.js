@@ -108,8 +108,18 @@ function Home() {
       {type === "SEARCH" && (
         <>
           {citiesResults.loading && <div>Loading...</div>}
-          {citiesResults.error && (
+          {citiesResults.error ? (
             <ModalError errorMessage="The allowed number of requests has been exceeded" />
+          ) : (
+            <>
+              {!citiesResults.loading &&
+              citiesResults.data &&
+              citiesResults.data.length === 0 ? (
+                <h1 className="mt-3 text-lg font-bold text-center">
+                  No matches found
+                </h1>
+              ) : null}
+            </>
           )}
           {!citiesResults.loading &&
           citiesResults.data &&
