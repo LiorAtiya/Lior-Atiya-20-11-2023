@@ -44,7 +44,7 @@ function Favorite() {
 
       <div className="flex flex-wrap justify-center mt-3">
         {favoritesList?.map((item, index) => (
-          <div key={index}>
+          <div key={index} className="m-3">
             {isCelsius ? (
               <FavoriteCard
                 cityKey={item.cityKey}

@@ -163,6 +163,7 @@ function Home() {
         handleRemoveFromFavorites={handleRemoveFromFavorites}
       />
     </div>
+
   );
 }
 

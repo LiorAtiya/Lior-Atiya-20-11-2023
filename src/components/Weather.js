@@ -30,7 +30,7 @@ function Weather({
   }, [city, favoritesList]);
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center dark:bg-gray-700">
       <div className="relative w-4/5 mt-10 bg-teal-100 border-gray-700 rounded-lg shadow-md lg:w-3/5 md:w-4/5 sm:w-4/5">
         <div className="absolute flex top-2 left-2">
           {/* <button className="px-5 py-2 mx-2 text-white bg-blue-500 rounded-md">
@@ -45,9 +45,9 @@ function Weather({
                 </p>
                 <button
                   onClick={() => setIsCelsius(false)}
-                  className="px-4 text-white bg-teal-500 rounded-md"
+                  className="px-4 text-center text-white bg-teal-500 rounded-md"
                 >
-                  Fahrenheit Mode
+                  Fahrenheit Switch
                 </button>
               </>
             ) : (
@@ -60,7 +60,7 @@ function Weather({
                   onClick={() => setIsCelsius(true)}
                   className="px-4 text-white bg-teal-500 rounded-md"
                 >
-                  Celsius Mode
+                  Celsius Switch
                 </button>
               </>
             )}

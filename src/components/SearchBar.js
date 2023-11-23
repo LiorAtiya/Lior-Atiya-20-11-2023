@@ -39,7 +39,7 @@ function SearchBar({ searchRef }) {
           ref={searchCity}
           type="search"
           id="default-search"
-          className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:outline-none"
+          className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 focus:outline-none"
           placeholder="Search City"
           required
         />
