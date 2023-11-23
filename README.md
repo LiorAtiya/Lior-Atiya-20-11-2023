@@ -4,7 +4,7 @@ Live: [abra-weather-app.vercel.app](https://abra-weather-app.vercel.app/)
 This Weather App is a web application that provides real-time weather information for a specific city and forecasts for the next 5 days. <br>
 The app is powered by the AccuWeather API for real-time weather data and the Geolocation API for fetching the current location. It utilizes Redux for state management and incorporates Tailwind CSS for styling.
 
-<img width="1000" alt="Screenshot 2023-11-23 at 0 13 00" src="https://github.com/LiorAtiya/Lior-Atiya-20-11-2023/assets/22147116/044a8d05-3292-4203-ad33-a7b4abaf9c26">
+<img width="1000" alt="Screenshot 2023-11-23 at 13 36 55" src="https://github.com/LiorAtiya/Lior-Atiya-20-11-2023/assets/22147116/af11ac75-f0f4-4f1b-8924-45409f1bf1a3">
 
 # Features
 <b>Search Weather:</b> Users can search for the current weather of a specific city. <br>
