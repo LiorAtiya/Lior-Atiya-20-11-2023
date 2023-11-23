@@ -9,7 +9,7 @@ const FavoriteCard = ({
 }) => {
   return (
     <button
-      className="max-w-md mx-auto overflow-hidden bg-teal-300 shadow-md rounded-xl md:max-w-2xl"
+      className="max-w-md mx-auto overflow-hidden bg-teal-300 shadow-md rounded-xl md:max-w-2xl animate-slideup"
       onClick={() => handleClick(cityKey, city)}
     >
       <div className="md:flex">
