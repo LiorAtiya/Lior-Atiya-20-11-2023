@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchWeather,
   searchCityWeather,
+  getCurrentLocationWeather,
   addToFavorites,
   removeFromFavorites,
 } from "../features/weatherSlice";
@@ -19,9 +20,22 @@ function Home() {
   const citiesResults = useSelector((state) => state.weather.searchResults);
 
   useEffect(() => {
-    // //Deafult fetch of Tel-Aviv
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        if (type === "") {
+          dispatch(
+            getCurrentLocationWeather({
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+            })
+          );
+        }
+      });
+    }
+
+    // // Weather by current location
     // if (type === "") {
-    //   dispatch(fetchWeather({ cityKey: 215854, cityName: "Tel-Aviv" }));
+    //   // dispatch(fetchWeather({ cityKey: 215854, cityName: "Tel-Aviv" }));
     // }
   }, [dispatch]);
 
@@ -163,7 +177,6 @@ function Home() {
         handleRemoveFromFavorites={handleRemoveFromFavorites}
       />
     </div>
-
   );
 }
 

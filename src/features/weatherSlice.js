@@ -42,9 +42,24 @@ export const searchCityWeather = createAsyncThunk(
   }
 );
 
+export const getCurrentLocationWeather = createAsyncThunk(
+  "weather/getCurrentLocationWeather",
+  async ({ lat, lon }) => {
+    try {
+      const apiKey = process.env.REACT_APP_ACCUWEATHER_API_KEY;
+
+      const response = await axios.get(
+        `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lon}`
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 const initialState = {
   type: "",
-  checkExist: false,
   favorites: localStorage.getItem("favoritesCities")
     ? JSON.parse(localStorage.getItem("favoritesCities"))
     : [],
@@ -114,6 +129,26 @@ export const weatherSlice = createSlice({
       state.searchResults.data = [];
       state.type = "SEARCH";
       state.searchResults.error = action.error.message;
+    });
+
+    //getCurrentLocationWeather
+    builder.addCase(getCurrentLocationWeather.pending, (state) => {
+      state.weather.loading = true;
+    });
+    builder.addCase(getCurrentLocationWeather.fulfilled, (state, action) => {
+      state.weather.loading = false;
+      state.weather.key = action.payload[0];
+      state.weather.city = action.payload[1];
+      state.weather.current = action.payload[2];
+      state.weather.forecast = action.payload[3];
+      state.type = "WEATHER";
+      state.weather.error = "";
+    });
+    builder.addCase(getCurrentLocationWeather.rejected, (state, action) => {
+      state.weather.loading = false;
+      state.weather.current = [];
+      state.type = "WEATHER";
+      state.weather.error = action.error.message;
     });
   },
 });
