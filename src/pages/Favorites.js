@@ -47,6 +47,7 @@ function Favorite() {
           <div key={index} className="m-3">
             {isCelsius ? (
               <FavoriteCard
+                icon={item.icon}
                 cityKey={item.cityKey}
                 city={item.cityName}
                 temperature={item.temperature + "°C"}

@@ -45,13 +45,28 @@ export const searchCityWeather = createAsyncThunk(
 export const getCurrentLocationWeather = createAsyncThunk(
   "weather/getCurrentLocationWeather",
   async ({ lat, lon }) => {
+    const apiKey = process.env.REACT_APP_ACCUWEATHER_API_KEY;
     try {
-      const apiKey = process.env.REACT_APP_ACCUWEATHER_API_KEY;
-
       const response = await axios.get(
         `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lon}`
       );
-      return response.data;
+
+      const cityKey = response.data.Key;
+      const cityName = response.data.LocalizedName;
+
+      const [currentConditionsResponse, forecastsResponse] = await Promise.all([
+        axios.get(
+          `http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=${apiKey}`
+        ),
+        axios.get(
+          `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=${apiKey}`
+        ),
+      ]);
+
+      const currentConditions = currentConditionsResponse.data;
+      const forecasts = forecastsResponse.data;
+
+      return [cityKey, cityName, currentConditions, forecasts];
     } catch (error) {
       throw error;
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchWeather,
@@ -9,7 +9,7 @@ import {
 } from "../features/weatherSlice";
 
 import SearchBar from "../components/SearchBar";
-import Weather from "../components/Weather";
+import WeatherCard from "../components/WeatherCard";
 import SearchResults from "../components/SearchResults";
 import ModalError from "../components/ModalError";
 
@@ -32,12 +32,7 @@ function Home() {
         }
       });
     }
-
-    // // Weather by current location
-    // if (type === "") {
-    //   // dispatch(fetchWeather({ cityKey: 215854, cityName: "Tel-Aviv" }));
-    // }
-  }, [dispatch]);
+  }, [dispatch, type]);
 
   const handleResultSearch = (cityName) => {
     dispatch(searchCityWeather(cityName));
@@ -51,68 +46,16 @@ function Home() {
     cityKey,
     cityName,
     temperature,
-    WeatherText
+    WeatherText,
+    icon
   ) => {
-    dispatch(addToFavorites({ cityKey, cityName, temperature, WeatherText }));
+    dispatch(
+      addToFavorites({ cityKey, cityName, temperature, WeatherText, icon })
+    );
   };
 
   const handleRemoveFromFavorites = (cityName) => {
     dispatch(removeFromFavorites({ name: cityName }));
-  };
-
-  const TEST = {
-    cityKey: 12345,
-    city: "Tel-Aviv",
-    details: {
-      WeatherText: "Cloudy",
-      Temperature: {
-        Metric: {
-          UnitType: 22,
-        },
-      },
-    },
-    forecasts: [
-      {
-        day: new Date(),
-        Temperature: {
-          Maximum: {
-            UnitType: 1,
-          },
-        },
-      },
-      {
-        day: new Date(),
-        Temperature: {
-          Maximum: {
-            UnitType: 2,
-          },
-        },
-      },
-      {
-        day: new Date(),
-        Temperature: {
-          Maximum: {
-            UnitType: 3,
-          },
-        },
-      },
-      {
-        day: new Date(),
-        Temperature: {
-          Maximum: {
-            UnitType: 4,
-          },
-        },
-      },
-      {
-        day: new Date(),
-        Temperature: {
-          Maximum: {
-            UnitType: 5,
-          },
-        },
-      },
-    ],
   };
 
   return (
@@ -156,7 +99,7 @@ function Home() {
           currWeather.current &&
           currWeather.forecast &&
           currWeather.current.length ? (
-            <Weather
+            <WeatherCard
               cityKey={currWeather.key}
               city={currWeather.city}
               details={currWeather.current[0]}
@@ -168,14 +111,6 @@ function Home() {
         </>
       )}
 
-      <Weather
-        cityKey={TEST.cityKey}
-        city={TEST.city}
-        details={TEST.details}
-        forecasts={TEST.forecasts}
-        handleAddToFavorites={handleAddToFavorites}
-        handleRemoveFromFavorites={handleRemoveFromFavorites}
-      />
     </div>
   );
 }

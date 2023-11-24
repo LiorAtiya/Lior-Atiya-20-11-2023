@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Header() {
-  const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode")) === true);
+  const [darkMode, setDarkMode] = useState(
+    JSON.parse(localStorage.getItem("darkMode")) === true
+  );
 
   useEffect(() => {
     if (darkMode) {
@@ -37,20 +40,20 @@ function Header() {
       </button>
       <div className="flex">
         <div className="">
-          <a
-            href={`/`}
+          <Link
+            to={`/`}
             className="inline-block px-4 py-2 mt-0 text-sm leading-none text-white border border-white rounded hover:border-transparent hover:text-teal-500 hover:bg-white"
           >
             Home
-          </a>
+          </Link>
         </div>
         <div className="">
-          <a
-            href={`/Favorites`}
+          <Link
+            to={`/Favorites`}
             className="inline-block px-4 py-2 mt-0 text-sm leading-none text-white border border-white rounded hover:border-transparent hover:text-teal-500 hover:bg-white"
           >
             Favorites
-          </a>
+          </Link>
         </div>
       </div>
     </nav>

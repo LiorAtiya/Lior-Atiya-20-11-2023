@@ -4,7 +4,7 @@ import { AiFillHeart } from "react-icons/ai";
 import DailyWeather from "./DailyWeather";
 import { useSelector } from "react-redux";
 
-function Weather({
+function WeatherCard({
   cityKey,
   city,
   details,
@@ -16,9 +16,9 @@ function Weather({
   const [isCelsius, setIsCelsius] = useState(true);
   const favoritesList = useSelector((state) => state.weather.favorites);
 
-  const toFahrenheit = (celsius) => {
-    return (celsius * 9) / 5 + 32;
-  };
+  function toCelsius(fahrenheit) {
+    return (fahrenheit - 32) * 5/9;
+  }
 
   useEffect(() => {
     const existCity = favoritesList.filter(
@@ -38,7 +38,7 @@ function Weather({
             {isCelsius ? (
               <>
                 <p className="text-lg font-bold text-teal-700">
-                  {details && details.Temperature.Metric.UnitType+'°C'}
+                  {details && details.Temperature.Metric.Value + "°C"}
                 </p>
                 <button
                   onClick={() => setIsCelsius(false)}
@@ -50,7 +50,7 @@ function Weather({
             ) : (
               <>
                 <p className="text-lg font-bold text-teal-700">
-                  {toFahrenheit(details.Temperature.Metric.UnitType).toFixed(2)}
+                  {details.Temperature.Imperial.Value}
                   °F
                 </p>
                 <button
@@ -94,8 +94,9 @@ function Weather({
                   handleAddToFavorites(
                     cityKey,
                     city,
-                    details.Temperature.Metric.UnitType,
-                    details.WeatherText
+                    details.Temperature.Metric.Value,
+                    details.WeatherText,
+                    details.WeatherIcon,
                   );
                   setFavoriteCity(true);
                 }}
@@ -111,24 +112,27 @@ function Weather({
           <p className="text-xl font-bold text-teal-700">
             {details.WeatherText}
           </p>
-          <img className="m-auto" src={`/images/01-s.png`} width={200} alt='weatherIcon'></img>
+          <img
+            className="m-auto"
+            src={`/images/${details.WeatherIcon}-s.png`}
+            width={200}
+            alt="weatherIcon"
+          ></img>
         </div>
 
         <div className="p-4 mx-auto mt-15">
           <div className="flex flex-wrap justify-center">
             {forecasts?.map((item, index) => (
               <div key={index} className="m-2 bg-teal-500 rounded-md">
-                {isCelsius ? (
-                  <DailyWeather
-                    day={new Date(item.Date).toDateString()}
-                    temperature={item.Temperature.Maximum.UnitType+'°C'}
-                  />
-                ) : (
-                  <DailyWeather
-                    day={new Date(item.Date).toDateString()}
-                    temperature={(toFahrenheit((item.Temperature.Maximum.UnitType).toFixed(2))+'°F')}
-                  />
-                )}
+                <DailyWeather
+                  icon={item.Day.Icon}
+                  day={new Date(item.Date).toDateString()}
+                  temperature={
+                    isCelsius
+                      ? `${toCelsius(item.Temperature.Maximum.Value).toFixed(0)} °C`
+                      : (item.Temperature.Maximum.Value) + "°F"
+                  }
+                />
               </div>
             ))}
           </div>
@@ -138,4 +142,4 @@ function Weather({
   );
 }
 
-export default Weather;
+export default WeatherCard;
