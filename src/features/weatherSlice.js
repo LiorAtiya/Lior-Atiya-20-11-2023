@@ -9,10 +9,10 @@ export const fetchWeather = createAsyncThunk(
 
       const [currentConditionsResponse, forecastsResponse] = await Promise.all([
         axios.get(
-          `http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=${apiKey}`
+          `https://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=${apiKey}`
         ),
         axios.get(
-          `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=${apiKey}`
+          `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=${apiKey}`
         ),
       ]);
 
@@ -33,7 +33,7 @@ export const searchCityWeather = createAsyncThunk(
       const apiKey = process.env.REACT_APP_ACCUWEATHER_API_KEY;
 
       const response = await axios.get(
-        `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${cityName}`
+        `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${cityName}`
       );
       return response.data;
     } catch (error) {
@@ -48,7 +48,7 @@ export const getCurrentLocationWeather = createAsyncThunk(
     const apiKey = process.env.REACT_APP_ACCUWEATHER_API_KEY;
     try {
       const response = await axios.get(
-        `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lon}`
+        `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lon}`
       );
 
       const cityKey = response.data.Key;
@@ -56,10 +56,10 @@ export const getCurrentLocationWeather = createAsyncThunk(
 
       const [currentConditionsResponse, forecastsResponse] = await Promise.all([
         axios.get(
-          `http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=${apiKey}`
+          `https://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=${apiKey}`
         ),
         axios.get(
-          `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=${apiKey}`
+          `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=${apiKey}`
         ),
       ]);
 
