@@ -26,7 +26,6 @@ function Header() {
   return (
     <nav className="flex flex-wrap items-center justify-center p-5 bg-teal-500 md:justify-between lg:justify-between">
       <div className="flex items-center flex-shrink-0 mr-6 text-center text-white md:text-left lg:text-left xl:text-left">
-        <img src={`/images/abra-icon.png`} width={100} alt="weatherIcon"></img>
         <span className="ml-3 text-xl font-semibold tracking-tight">
           {" "}
           Weather Task
